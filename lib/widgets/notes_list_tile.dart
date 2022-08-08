@@ -61,20 +61,20 @@ class NotesListTile extends StatelessWidget {
           },
           color: Colors.black,
           iconSize: 8.w,
-          icon: FaIcon(
+          icon: const FaIcon(
             FontAwesomeIcons.arrowRight,
             color: Colors.black,
           ),
         ),
         leading: Container(
-          child: Center(
-            child: Icon(Icons.note_add_sharp),
-          ),
           width: 50.w,
           height: 51.h,
           decoration: BoxDecoration(
-              color: Color.fromARGB(255, 229, 227, 227),
+              color: const Color.fromARGB(255, 229, 227, 227),
               borderRadius: BorderRadius.circular(9)),
+          child: const Center(
+            child: Icon(Icons.note_add_sharp),
+          ),
         ),
       ),
     );

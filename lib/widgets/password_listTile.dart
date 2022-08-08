@@ -39,7 +39,7 @@ class _PasswordListTileState extends State<PasswordListTile> {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: const [
         
           SizedBox(
             width: 12.0,
@@ -92,7 +92,7 @@ class _PasswordListTileState extends State<PasswordListTile> {
             fToast.showToast(
               child: _showToast(),
               gravity: ToastGravity.BOTTOM,
-              toastDuration: Duration(seconds: 2),
+              toastDuration: const Duration(seconds: 2),
             );
             // await Fluttertoast.showToast(
             //   msg: "Copied to clipboard",

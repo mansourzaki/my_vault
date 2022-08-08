@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     await provider.authinticate();
                     if (provider.isAuthenticated) {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) =>  MainScreen(),
+                        builder: (context) =>  const MainScreen(),
                       ));
                     }
                   },
