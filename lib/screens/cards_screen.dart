@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:lottie/lottie.dart';
 
 import 'package:provider/provider.dart';
 
@@ -48,28 +48,30 @@ class _CardsScreenState extends State<CardsScreen> {
                         borderRadius: BorderRadius.circular(11))),
               ),
             ),
-            ListView.builder(
-                padding: const EdgeInsets.all(0),
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                itemCount: context
-                    .watch<DbProvider>()
-                    .cards
-                    .where((element) => element.title
-                        .toLowerCase()
-                        .contains(provider.search.toLowerCase()))
-                    .length,
-                itemBuilder: (context, i) {
-                  log('message');
-                  return CardsListTile(
-                      card: context
-                          .watch<DbProvider>()
-                          .cards
-                          .where((element) => element.title
-                              .toLowerCase()
-                              .contains(provider.search.toLowerCase()))
-                          .toList()[i]);
-                })
+            context.watch<DbProvider>().cards.isEmpty
+                ? Center(child: Lottie.asset('assets/images/cards.json'))
+                : ListView.builder(
+                    padding: const EdgeInsets.all(0),
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemCount: context
+                        .watch<DbProvider>()
+                        .cards
+                        .where((element) => element.title
+                            .toLowerCase()
+                            .contains(provider.search.toLowerCase()))
+                        .length,
+                    itemBuilder: (context, i) {
+                      log('message');
+                      return CardsListTile(
+                          card: context
+                              .watch<DbProvider>()
+                              .cards
+                              .where((element) => element.title
+                                  .toLowerCase()
+                                  .contains(provider.search.toLowerCase()))
+                              .toList()[i]);
+                    })
           ],
         ),
       ),

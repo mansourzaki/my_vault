@@ -26,21 +26,21 @@ class _AddCardScreenState extends State<AddCardScreen> {
   TextEditingController expDateController = TextEditingController();
   TextEditingController cvvController = TextEditingController();
   TextEditingController pinController = TextEditingController();
-  String creditNumberFormatter(String num) {
-    String first = num.substring(0, 4);
-    String second = num.substring(4, 8);
-    String third = num.substring(8, 12);
-    String last = num.substring(12, 16);
+  // String creditNumberFormatter(String num) {
+  //   String first = num.substring(0, 4);
+  //   String second = num.substring(4, 8);
+  //   String third = num.substring(8, 12);
+  //   String last = num.substring(12, 16);
 
-    return '$first $second $third $last';
-  }
+  //   return '$first $second $third $last';
+  // }
 
   @override
   void initState() {
     if (widget.card != null) {
       titleController.text = widget.card!.title;
       nameController.text = widget.card!.name;
-      numberController.text = creditNumberFormatter(widget.card!.number);
+      numberController.text = widget.card!.number;
       expDateController.text = DateFormat('MM/yy').format(widget.card!.date);
       cvvController.text = widget.card!.cvv.toString();
       pinController.text = widget.card!.pin.toString();
@@ -109,7 +109,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       controller: nameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Title mustn\'t be empty';
+                          return 'Name mustn\'t be empty';
                         }
                       },
                       decoration: const InputDecoration(
@@ -126,11 +126,12 @@ class _AddCardScreenState extends State<AddCardScreen> {
                   ),
                   TextFormField(
                       controller: numberController,
-                      inputFormatters: [CreditCardNumberInputFormatter()],
+                      maxLength: 16,
                       keyboardType: TextInputType.number,
+                     autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Title mustn\'t be empty';
+                          return 'Number mustn\'t be empty';
                         }
                         if (!isNumeric(value)) {
                           return 'Not valid card number';
@@ -139,8 +140,6 @@ class _AddCardScreenState extends State<AddCardScreen> {
                           return 'Card number must be 16 digits';
                         }
                       },
-                      maxLength: 19,
-                      
                       decoration: const InputDecoration(
                         floatingLabelStyle: TextStyle(color: Color(0xff4447E2)),
                         label: Text('Card Number'),
@@ -157,14 +156,11 @@ class _AddCardScreenState extends State<AddCardScreen> {
                   TextFormField(
                       controller: expDateController,
                       keyboardType: TextInputType.datetime,
-                      // validator: (value) {
-                      //   if (value == null || value.isEmpty) {
-                      //     return 'Title mustn\'t be empty';
-                      //   }
-                      //   if (!isDate(value)) {
-                      //     return 'not valid date';
-                      //   }
-                      // },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Date mustn\'t be empty';
+                        }
+                      },
                       inputFormatters: [CreditCardExpirationDateFormatter()],
                       decoration: const InputDecoration(
                         floatingLabelStyle: TextStyle(color: Color(0xff4447E2)),
@@ -184,16 +180,15 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Title mustn\'t be empty';
+                          return 'Cvv mustn\'t be empty';
                         }
                         if (!isNumeric(value)) {
                           return 'must be digits';
                         }
                         if (value.length != 3) {
-                          return 'cvv must be 3 digits';
+                          return 'Cvv must be 3 digits';
                         }
                       },
-                      inputFormatters: [CreditCardCvcInputFormatter()],
                       decoration: const InputDecoration(
                         floatingLabelStyle: TextStyle(color: Color(0xff4447E2)),
                         label: Text('CVV'),
@@ -213,13 +208,13 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       maxLength: 4,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Title mustn\'t be empty';
+                          return 'Pin mustn\'t be empty';
                         }
                         if (!isNumeric(value)) {
-                          return 'must be digits';
+                          return 'Pin be digits';
                         }
                         if (value.length != 4) {
-                          return 'pin must be 4 digits';
+                          return 'Pin must be 4 digits';
                         }
                       },
                       decoration: const InputDecoration(

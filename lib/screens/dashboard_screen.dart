@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../models/credit_card.dart';
@@ -56,21 +57,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return '$first **** **** $second';
   }
 
+  String greeting() {
+    var hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good Morning';
+    }
+    if (hour < 17) {
+      return 'Good Afternoon';
+    }
+    return 'Good Evening';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
+      appBar: PreferredSize(
         preferredSize: Size.fromHeight(100),
         child: Padding(
           padding: EdgeInsets.only(left: 1, right: 10, top: 25),
           child: ListTile(
-            title: Text('Hello, Joe'),
-            subtitle: Text('Welcome to your vault'),
-            trailing: CircleAvatar(
+            title: Text(greeting()),
+            subtitle: const Text('Welcome to your vault'),
+            trailing: const CircleAvatar(
               radius: 20,
-              backgroundImage: AssetImage(
-                'assets/images/profile.jpg',
-              ),
+              backgroundColor: Colors.black,
+              child: Icon(Icons.password),
             ),
           ),
         ),
@@ -97,10 +108,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               SizedBox(
                 height: 200.h,
                 child: context.watch<DbProvider>().cards.isEmpty
-                    ? const Center(child: CircularProgressIndicator())
+                    ?  Center(
+                        child: Lottie.asset('assets/images/cards.json'))
                     : ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 3,
+                        itemCount: context.watch<DbProvider>().cards.length,
                         itemBuilder: (context, i) {
                           CreditCard card =
                               context.watch<DbProvider>().cards[i];
@@ -117,7 +129,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 color: Colors.blue[400],
                                 borderRadius: BorderRadius.circular(20)),
                             child: Padding(
-                              padding:  EdgeInsets.only(
+                              padding: EdgeInsets.only(
                                   left: 20.w, right: 30.w, top: 15.h),
                               child: Column(
                                 children: [
@@ -154,7 +166,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           fToast.showToast(
                                             child: _showToast(),
                                             gravity: ToastGravity.BOTTOM,
-                                            toastDuration: const Duration(seconds: 2),
+                                            toastDuration:
+                                                const Duration(seconds: 2),
                                           );
                                         },
                                         icon: const FaIcon(
@@ -169,13 +182,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     height: 20,
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(bottom: 1 ),
+                                    padding: const EdgeInsets.only(bottom: 1),
                                     child: Row(
                                       children: [
                                         Text(
                                           DateFormat('MM/yy').format(card.date),
                                           style: const TextStyle(
-                                              color: Colors.white, fontSize: 14),
+                                              color: Colors.white,
+                                              fontSize: 14),
                                         ),
                                         SizedBox(
                                           width: 50.w,
@@ -183,7 +197,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         const Text(
                                           'CVV',
                                           style: TextStyle(
-                                              color: Colors.white, fontSize: 14),
+                                              color: Colors.white,
+                                              fontSize: 14),
                                         ),
                                         SizedBox(
                                           width: 5.w,
@@ -191,7 +206,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         const Text(
                                           '***',
                                           style: TextStyle(
-                                              color: Colors.white, fontSize: 14),
+                                              color: Colors.white,
+                                              fontSize: 14),
                                         ),
                                       ],
                                     ),
@@ -219,16 +235,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   const Icon(Icons.arrow_right_sharp)
                 ],
               ),
-              ListView.builder(
-                  padding: const EdgeInsets.all(0),
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemCount:
-                      context.watch<DbProvider>().passwords.take(5).length,
-                  itemBuilder: (context, i) {
-                    return PasswordListTile(
-                        password: context.watch<DbProvider>().passwords[i]);
-                  })
+              context.watch<DbProvider>().passwords.isEmpty
+                  ?Center(child: Lottie.asset('assets/images/password.json'))
+                  : ListView.builder(
+                      padding: const EdgeInsets.all(0),
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      itemCount:
+                          context.watch<DbProvider>().passwords.take(5).length,
+                      itemBuilder: (context, i) {
+                        return PasswordListTile(
+                            password: context.watch<DbProvider>().passwords[i]);
+                      })
             ],
           ),
         ),

@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-
 import '../helpers/db_helper.dart';
 import '../models/credit_card.dart';
 import '../models/note.dart';
@@ -26,7 +25,7 @@ class DbProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  changeSnackBarState(){
+  changeSnackBarState() {
     isSnackbarActive = !isSnackbarActive;
     notifyListeners();
   }
@@ -34,7 +33,6 @@ class DbProvider with ChangeNotifier {
   getAllModels() async {
     getAllCards();
     getAllPasswords();
-
     getAllNotes();
     notifyListeners();
   }
@@ -68,23 +66,23 @@ class DbProvider with ChangeNotifier {
 
   addNewCard(CreditCard card) async {
     await DbHelper.dbHelper.addNewCard(card);
-    cards.add(card);
+    getAllCards();
     notifyListeners();
   }
 
   deleteNote(int id) async {
     await DbHelper.dbHelper.deleteNote(id);
-    getAllModels();
+    await getAllModels();
   }
 
   deletePassword(int id) async {
     await DbHelper.dbHelper.deletePassword(id);
-    getAllModels();
+    await getAllModels();
   }
 
   deleteCard(int id) async {
     await DbHelper.dbHelper.deleteCard(id);
-    getAllModels();
+    await getAllModels();
   }
 
   updateNote(Note note) async {

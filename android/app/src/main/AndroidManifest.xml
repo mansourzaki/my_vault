@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mans.my_vault">
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
    <application
         android:label="my_vault"
         android:name="${applicationName}"

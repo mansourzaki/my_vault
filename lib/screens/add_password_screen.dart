@@ -87,6 +87,7 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                         if (value == null || value.isEmpty) {
                           return "Title shouldn't be empty";
                         }
+                        
                       },
                       decoration: const InputDecoration(
                         floatingLabelStyle: TextStyle(color: Color(0xff4447E2)),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/db_provider.dart';
@@ -52,7 +53,9 @@ class _PasswordsScreenState extends State<PasswordsScreen> {
             //         .isEmpty
             //     ? Lottie.asset('assets/images/no_result.json')
             //     : 
-                ListView.builder(
+            context.watch<DbProvider>().passwords.isEmpty
+                ? Center(child: Lottie.asset('assets/images/password.json'))
+                :    ListView.builder(
                     padding: const EdgeInsets.all(0),
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),

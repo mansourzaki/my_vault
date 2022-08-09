@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:lottie/lottie.dart';
 
 import 'package:provider/provider.dart';
 
@@ -45,7 +45,9 @@ class _NotesScreenState extends State<NotesScreen> {
                         borderRadius: BorderRadius.circular(11))),
               ),
             ),
-            ListView.builder(
+            context.watch<DbProvider>().notes.isEmpty
+                ? Center(child: Lottie.asset('assets/images/notes.json'))
+                : ListView.builder(
                     padding: const EdgeInsets.all(0),
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),

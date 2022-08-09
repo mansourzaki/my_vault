@@ -26,7 +26,7 @@ class Password {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['id'] = id;
+    // data['id'] = id;
     data['title'] = title;
     data['url'] = url;
     data[DbHelper.passwordsUsernameColumnName] = userName;
